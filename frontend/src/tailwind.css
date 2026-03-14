@@ -1,0 +1,11 @@
+@import "tailwindcss";
+.glass-input {
+    @apply w-full px-4 py-2 rounded-lg
+           bg-white/10 text-white
+           border border-white/20
+           backdrop-blur-md
+           placeholder-white/50
+           focus:outline-none focus:ring-2 focus:ring-green-400
+           appearance-none;
+  }
+  

@@ -1,0 +1,13 @@
+# React
+frontend/node_modules
+
+# Python
+backend/venv
+backend/__pycache__
+*.pyc
+
+# environment
+.env
+
+# uploads
+backend/uploads
