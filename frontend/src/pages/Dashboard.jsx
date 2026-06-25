@@ -856,7 +856,7 @@ function AlertsPanel({ dynamicAlerts, activeThreshold }) {
 function ModelInfoBar({ trainedOn }) {
   const items = [
     { icon: "⚙️", label: "MODEL USED", value: "Hybrid SVR + LSTM Forecasting" },
-    { icon: "🧩", label: "FEATURES USED", value: "Lag, rolling stats, seasonality encoding" },
+    { icon: "🧩", label: "FEATURES USED", value: "Historical Lags, Temporal Dependencies, Calendar Encoding" },
     { icon: "🎯", label: "ANOMALY DETECTION", value: "Dynamic threshold · mean + 2σ" },
     { icon: "📦", label: "TRAINED ON", value: trainedOn ? `${trainedOn} records` : "–" },
   ];

@@ -8,6 +8,7 @@ import numpy as np
 from database.mongodb import utility_collection
 from sklearn.svm import SVR
 from sklearn.preprocessing import StandardScaler
+from services.lstm_service import predict_lstm
 
 # Confidence Function
 def get_confidence(record_count):
@@ -156,13 +157,9 @@ def get_forecast(resource_type, sub_utility, forecast_days):
 
     # Train SVR
     model = SVR(
-
         kernel="rbf",
-
         C=100,
-
         epsilon=0.1,
-
         gamma="scale"
     )
 
@@ -224,6 +221,31 @@ def get_forecast(resource_type, sub_utility, forecast_days):
         history.append(
             prediction
         )   
+
+
+    # LSTM Forecast
+    lstm_predictions = predict_lstm(
+        df,
+        forecast_days
+    )
+
+    svr_predictions = future_predictions.copy()
+
+    # hybrid svr+lstm
+    hybrid_predictions = []
+
+    for svr, lstm in zip(
+        svr_predictions,
+        lstm_predictions
+    ):
+
+        hybrid_predictions.append(
+            round(
+                (0.8 * svr) + (0.2 * lstm), 2
+            )
+        )
+
+    future_predictions = hybrid_predictions
 
     # Confidence
     confidence = get_confidence(
@@ -300,23 +322,6 @@ def get_forecast(resource_type, sub_utility, forecast_days):
 
         predicted_values.append(pred)
 
-    # Optional Bridge Connection
-    # for idx, (d, v) in enumerate(
-    #     zip(
-    #         historical_dates,
-    #         historical_values
-    #     )
-    # ):
-
-    #     all_dates.append(d)
-
-    #     actual_values.append(v)
-
-    #     if idx == len(historical_dates) - 1:
-    #         predicted_values.append(v)
-    #     else:
-    #         predicted_values.append(None)
-
     print("len of all_dates", len(all_dates))
     print("len of actual dates", len(actual_values))
     print("len of predicted values", len(predicted_values))
@@ -332,21 +337,19 @@ def get_forecast(resource_type, sub_utility, forecast_days):
     print("-20 predicted values", predicted_values[-20:])
     print("-35 predicted values", predicted_values[-35:])
 
+    print("svr_prediction", svr_predictions)
+    print("lstm_prediction", lstm_predictions)
+    print("predicted", future_predictions)
+
     #return 
     return {
 
         "forecast_available": True,
         "forecast_start_date": future_dates[0],
-
-        "model": "SVR",
-
+        "model": "Hybrid SVR-LSTM",
         "confidence": confidence,
-
         "records_used": record_count,
-
         "days": all_dates,
-
         "actual": actual_values,
-
         "predicted": predicted_values
     }

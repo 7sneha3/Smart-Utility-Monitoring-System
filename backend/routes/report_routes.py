@@ -119,7 +119,7 @@ def report_summary():
     peak = max(consumptions)
 
     anomaly = calculate_anomalies_from_records(
-        historical_records
+        records
     )
 
     threshold = anomaly["threshold"]
@@ -247,6 +247,13 @@ def download_report():
         )
     )
 
+    if from_date and to_date:
+
+        records = [
+            r for r in records
+            if from_date <= r["date"] <= to_date
+        ]
+
     energy_total = 0
     water_total = 0
 
@@ -268,13 +275,6 @@ def download_report():
         ):
             water_total += value
 
-
-    if from_date and to_date:
-
-        records = [
-            r for r in records
-            if from_date <= r["date"] <= to_date
-        ]
 
     if len(records) == 0:
 
@@ -518,7 +518,7 @@ def download_report():
 
     ws4.append([
         "Features",
-        "Lag, Rolling Mean, Seasonality"
+        "Historical Lags, Temporal Dependencies, Calendar Encoding"
     ])
 
     ws4.append([

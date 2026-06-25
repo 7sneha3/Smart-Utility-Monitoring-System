@@ -133,6 +133,57 @@ export default function ForecastChart({
             chartData.length - 1
         ]?.day;
 
+        const CustomTooltip = ({ active, payload, label }) => {
+            if (!active || !payload?.length) return null;
+
+            return (
+                <div
+                    style={{
+                        background: "#fff",
+                        border: "1px solid #E5E7EB",
+                        borderRadius: 10,
+                        padding: "12px 14px",
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.08)"
+                    }}
+                    >
+                <div
+                    style={{
+                    color: C.cardTitle,
+                    fontWeight: 600,
+                    marginBottom: 8
+                    }}
+                >
+                    {label}
+                </div>
+
+                {payload.find(p => p.dataKey === "actual")?.value != null && (
+                    <div
+                    style={{
+                        color: C.blue,
+                        fontWeight: 600,
+                        marginBottom: 6
+                    }}
+                    >
+                    Actual Consumption :{" "}
+                    {fmt(payload.find(p => p.dataKey === "actual").value)}
+                    </div>
+                )}
+
+                {payload.find(p => p.dataKey === "predicted")?.value != null && (
+                    <div
+                    style={{
+                        color: "#F97316",
+                        fontWeight: 600
+                    }}
+                    >
+                    Hybrid SVR-LSTM Forecast :{" "}
+                    {fmt(payload.find(p => p.dataKey === "predicted").value)}
+                    </div>
+                )}
+                </div>
+            );
+            };
+
     return (
         <Card style={{ padding: "22px 24px" }}>
 
@@ -153,7 +204,7 @@ export default function ForecastChart({
                             fontSize: 16
                         }}
                     >
-                        Forecast: Actual vs SVR Prediction
+                        Forecast: Actual vs Hybrid SVR-LSTM Prediction
                     </div>
 
                     <div
@@ -244,7 +295,7 @@ export default function ForecastChart({
                 }}
             >
                 <span>
-                    <strong>Model:</strong> SVR
+                    <strong>Model:</strong> Hybrid SVR-LSTM
                 </span>
 
                 <span>
@@ -292,7 +343,7 @@ export default function ForecastChart({
                             axisLine={false}
                         />
 
-                        <Tooltip />
+                        <Tooltip content={<CustomTooltip />} />
 
                         <Legend />
 
@@ -373,7 +424,7 @@ export default function ForecastChart({
                                 strokeWidth: 2
                             }}
                             connectNulls={false}
-                            name="SVR Forecast"
+                            name="Hybrid SVR-LSTM Forecast"
                         />
                     </ComposedChart>
                 </ResponsiveContainer>

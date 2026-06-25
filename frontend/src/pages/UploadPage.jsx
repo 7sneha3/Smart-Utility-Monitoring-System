@@ -81,10 +81,10 @@ export default function UploadPage() {
       setSuccess(true);
 
       toast.success(
-        `Upload Completed
-        Valid Rows: ${response.data.valid_rows}
-        Invalid Rows: ${response.data.invalid_rows}
-        Saved Records: ${response.data.records}`
+        `Upload Completed`
+        // Valid Rows: ${response.data.valid_rows}
+        // Invalid Rows: ${response.data.invalid_rows}
+        // Saved Records: ${response.data.records}`
       );
 
       setUploadResult(
