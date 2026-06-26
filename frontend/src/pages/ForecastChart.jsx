@@ -105,7 +105,7 @@ export default function ForecastChart({
         ) => ({
 
             day:
-                day.slice(5),
+                day,
 
             actual:
                 forecastData.actual[index],
@@ -133,6 +133,9 @@ export default function ForecastChart({
             chartData.length - 1
         ]?.day;
 
+    const unitOf = (t) => t === "water" ? "L" : "kWh";
+    const u = unitOf(resourceType);
+
         const CustomTooltip = ({ active, payload, label }) => {
             if (!active || !payload?.length) return null;
 
@@ -146,7 +149,7 @@ export default function ForecastChart({
                         boxShadow: "0 6px 20px rgba(0,0,0,0.08)"
                     }}
                     >
-                <div
+                {/* <div
                     style={{
                     color: C.cardTitle,
                     fontWeight: 600,
@@ -154,7 +157,8 @@ export default function ForecastChart({
                     }}
                 >
                     {label}
-                </div>
+                </div> */}
+                <div style={{ color: C.cardMuted, fontSize: 11, marginBottom: 6 }}>Day {label}</div>
 
                 {payload.find(p => p.dataKey === "actual")?.value != null && (
                     <div
@@ -165,7 +169,7 @@ export default function ForecastChart({
                     }}
                     >
                     Actual Consumption :{" "}
-                    {fmt(payload.find(p => p.dataKey === "actual").value)}
+                    {fmt(payload.find(p => p.dataKey === "actual").value)} {u}
                     </div>
                 )}
 
@@ -176,8 +180,8 @@ export default function ForecastChart({
                         fontWeight: 600
                     }}
                     >
-                    Hybrid SVR-LSTM Forecast :{" "}
-                    {fmt(payload.find(p => p.dataKey === "predicted").value)}
+                    Hybrid SVR-LSTM Forecast :{" "} 
+                    {fmt(payload.find(p => p.dataKey === "predicted").value)} {u}
                     </div>
                 )}
                 </div>

@@ -10,6 +10,14 @@ from sklearn.svm import SVR
 from sklearn.preprocessing import StandardScaler
 from services.lstm_service import predict_lstm
 
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score
+)
+
+import numpy as np
+
 # Confidence Function
 def get_confidence(record_count):
 
@@ -155,6 +163,7 @@ def get_forecast(resource_type, sub_utility, forecast_days):
         )
     )
 
+
     # Train SVR
     model = SVR(
         kernel="rbf",
@@ -167,6 +176,39 @@ def get_forecast(resource_type, sub_utility, forecast_days):
         X_train_scaled,
         y_train
     )
+    
+    svr_test_predictions = model.predict(
+        X_test_scaled
+    )
+
+    mae = mean_absolute_error(
+        y_test,
+        svr_test_predictions
+    )
+
+    rmse = np.sqrt(
+        mean_squared_error(
+            y_test,
+            svr_test_predictions
+        )
+    )
+
+    r2 = r2_score(
+        y_test,
+        svr_test_predictions
+    )
+
+    mape = np.mean(
+        np.abs(
+            (y_test - svr_test_predictions) /
+            y_test
+        )
+    ) * 100
+
+    print("MAE :", round(mae,2))
+    print("RMSE:", round(rmse,2))
+    print("MAPE:", round(mape,2))
+    print("R2 :", round(r2,4))
 
     # Future Prediction
     future_dates = []
