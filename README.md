@@ -3,14 +3,13 @@
 ## A full-stack web application that enables industries to monitor, analyze, and forecast energy and water consumption using interactive dashboards, dynamix threshold-based anomaly detection, and hybrid SVR + LSTM -powered predictive analytics.
 
 ### Some insights:-
-<img width="940" height="431" alt="image" src="https://github.com/user-attachments/assets/6bd053b7-ad29-4366-84b6-9b28b7462494" />
+<img width="1897" height="870" alt="3opts" src="https://github.com/user-attachments/assets/4ee24448-2e3f-4031-a14b-87574aeeda05" />
 
 #### Consumption - 
-<img width="940" height="397" alt="image" src="https://github.com/user-attachments/assets/83358e3a-2b49-488a-b205-488fa9f08664" />
+<img width="1877" height="793" alt="consumption" src="https://github.com/user-attachments/assets/90191e40-4512-4562-bdf3-9b1354c24691" />
 
 #### Forecast - 
-<img width="940" height="389" alt="image" src="https://github.com/user-attachments/assets/b0e77436-c33b-44ec-a76b-bfbcca18e2b9" />
-
+<img width="1767" height="732" alt="forecast" src="https://github.com/user-attachments/assets/f2795cbb-dab7-4423-965b-5a2b33e71ee4" />
 
 ## 🛠️ Installation & Setup
 1️⃣ Clone the repo
